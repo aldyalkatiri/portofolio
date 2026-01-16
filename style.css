@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+/* Profile Container */
+.profile-frame { @apply relative group p-2 rounded-full border-2 border-dashed border-indigo-500/30; }
+.profile-container {
+    width: 260px; height: 260px; border-radius: 50%;
+    overflow: hidden; position: relative; cursor: pointer;
+    background: #1e293b; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.profile-container:hover { transform: scale(0.98); }
+#profile-img { width: 100%; height: 100%; object-fit: cover; }
+.overlay-upload {
+    @apply absolute inset-0 bg-indigo-600/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+}
+
+/* Project Cards */
+.project-card {
+    @apply bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden 
+           transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-2;
+}
+.project-img-wrapper { @apply h-52 overflow-hidden bg-slate-700; }
+.project-img-wrapper img { @apply w-full h-full object-cover transition-transform duration-700 group-hover:scale-110; }
+
+.view-link {
+    @apply inline-flex items-center text-indigo-400 font-bold text-sm tracking-widest uppercase 
+           hover:text-white transition-colors;
+}
+
+/* Theme Config */
+body.light-mode { background-color: #f8fafc; color: #0f172a; }
+body.light-mode .project-card { background: white; border-color: #e2e8f0; }
+body.light-mode .nav-scrolled { background-color: rgba(255,255,255,0.8); }
+
+.gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.cta-button {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl 
+           font-bold transition-all shadow-xl shadow-indigo-500/25 active:scale-95;
+}
+
+.social-btn {
+    @apply w-12 h-12 flex items-center justify-center rounded-2xl border border-slate-700 
+           hover:border-indigo-500 hover:text-indigo-400 transition-all text-lg;
+}
+
+.nav-scrolled { @apply bg-slate-900/90 backdrop-blur-lg py-3 border-b border-white/5 shadow-2xl; }

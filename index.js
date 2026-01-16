@@ -1,0 +1,46 @@
+// Inisialisasi Animasi AOS
+AOS.init({ duration: 1000, once: true });
+
+// Logika Ganti Tema
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.getElementById('body-theme');
+const themeIcon = document.getElementById('theme-icon');
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    themeIcon.classList.toggle('fa-moon');
+    themeIcon.classList.toggle('fa-sun');
+    localStorage.setItem('portfolio-theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+});
+
+// Efek Navbar saat Scroll
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    window.scrollY > 50 ? nav.classList.add('nav-scrolled') : nav.classList.remove('nav-scrolled');
+});
+
+// Fitur Upload Foto Profil
+const fileInput = document.getElementById('file-upload');
+const profileImg = document.getElementById('profile-img');
+
+// Cek jika ada foto yang tersimpan di memori browser
+const savedImg = localStorage.getItem('user-profile-pic');
+if (savedImg) profileImg.src = savedImg;
+
+fileInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            profileImg.src = e.target.result;
+            localStorage.setItem('user-profile-pic', e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Load preferensi tema yang tersimpan
+if (localStorage.getItem('portfolio-theme') === 'light') {
+    body.classList.add('light-mode');
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
+}
