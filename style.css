@@ -1,52 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+// Inisialisasi Animasi AOS
+AOS.init({ duration: 1000, once: true });
 
-body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+// Logika Ganti Tema
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.getElementById('body-theme');
+const themeIcon = document.getElementById('theme-icon');
 
-/* Profile Container */
-.profile-frame { @apply relative group p-2 rounded-full border-2 border-dashed border-indigo-500/30; }
-.profile-container {
-    width: 260px; height: 260px; border-radius: 50%;
-    overflow: hidden; position: relative; cursor: pointer;
-    background: #1e293b; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    themeIcon.classList.toggle('fa-moon');
+    themeIcon.classList.toggle('fa-sun');
+    localStorage.setItem('portfolio-theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+});
+
+// Efek Navbar saat Scroll
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    window.scrollY > 50 ? nav.classList.add('nav-scrolled') : nav.classList.remove('nav-scrolled');
+});
+
+// Fitur Upload Foto Profil
+const fileInput = document.getElementById('file-upload');
+const profileImg = document.getElementById('profile-img');
+
+// Cek jika ada foto yang tersimpan di memori browser
+const savedImg = localStorage.getItem('user-profile-pic');
+if (savedImg) profileImg.src = savedImg;
+
+fileInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            profileImg.src = e.target.result;
+            localStorage.setItem('user-profile-pic', e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Load preferensi tema yang tersimpan
+if (localStorage.getItem('portfolio-theme') === 'light') {
+    body.classList.add('light-mode');
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
 }
-.profile-container:hover { transform: scale(0.98); }
-#profile-img { width: 100%; height: 100%; object-fit: cover; }
-.overlay-upload {
-    @apply absolute inset-0 bg-indigo-600/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300;
-}
-
-/* Project Cards */
-.project-card {
-    @apply bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden 
-           transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-2;
-}
-.project-img-wrapper { @apply h-52 overflow-hidden bg-slate-700; }
-.project-img-wrapper img { @apply w-full h-full object-cover transition-transform duration-700 group-hover:scale-110; }
-
-.view-link {
-    @apply inline-flex items-center text-indigo-400 font-bold text-sm tracking-widest uppercase 
-           hover:text-white transition-colors;
-}
-
-/* Theme Config */
-body.light-mode { background-color: #f8fafc; color: #0f172a; }
-body.light-mode .project-card { background: white; border-color: #e2e8f0; }
-body.light-mode .nav-scrolled { background-color: rgba(255,255,255,0.8); }
-
-.gradient-text {
-    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.cta-button {
-    @apply bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl 
-           font-bold transition-all shadow-xl shadow-indigo-500/25 active:scale-95;
-}
-
-.social-btn {
-    @apply w-12 h-12 flex items-center justify-center rounded-2xl border border-slate-700 
-           hover:border-indigo-500 hover:text-indigo-400 transition-all text-lg;
-}
-
-.nav-scrolled { @apply bg-slate-900/90 backdrop-blur-lg py-3 border-b border-white/5 shadow-2xl; }
